@@ -1,19 +1,18 @@
-name: Iris KNN CI
+name: KNN Iris Workflow
 
 on:
   push:
     paths:
       - '**.py'
       - 'requirements.txt'
-      - 'iris.csv'
-  pull_request:
+      - 'iris.data'
 
 jobs:
-  build-and-run:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v3
 
     - name: Set up Python
@@ -24,7 +23,7 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
-    - name: Train KNN model
+    - name: Train the model
       run: python train.py
 
     - name: Run prediction
