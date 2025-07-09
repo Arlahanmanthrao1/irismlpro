@@ -1,16 +1,19 @@
 import joblib
 import numpy as np
 
-# Load model and label encoder
-knn = joblib.load('knn_iris_model.pkl')
-le = joblib.load('label_encoder.pkl')
+# Load the trained model and label encoder
+knn_model = joblib.load('knn_iris_model.pkl')
+label_encoder = joblib.load('label_encoder.pkl')
 
-# Example prediction input
-sample = np.array([[5.9, 3.0, 5.1, 1.8]])
+# Sample input for prediction: [sepal length, sepal width, petal length, petal width]
+sample_input = np.array([[6.0, 3.0, 4.8, 1.8]])  # You can modify this
 
-# Predict
-prediction = knn.predict(sample)
-predicted_species = le.inverse_transform(prediction)
+# Predict the class (numerical)
+predicted_class_num = knn_model.predict(sample_input)
 
-print(f"Input: {sample}")
-print(f"Predicted Species: {predicted_species[0]}")
+# Decode the numerical label to original species name
+predicted_species = label_encoder.inverse_transform(predicted_class_num)
+
+# Output
+print("📥 Input Data:", sample_input[0])
+print("🔍 Predicted Species:", predicted_species[0])
