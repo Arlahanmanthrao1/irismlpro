@@ -1,0 +1,42 @@
+name: IrisML CI/CD
+
+on:
+  push:
+    paths:
+      - '**.py'
+      - 'iris.data'
+      - 'requirements.txt'
+  pull_request:
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v3
+
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: 📦 Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: 🧠 Train the KNN model
+      run: python train.py
+
+    - name: 🔍 Run prediction
+      run: python predict.py
+
+    - name: ✅ Run test script
+      run: python test.py
+
+    - name: 📦 Upload model files
+      uses: actions/upload-artifact@v3
+      with:
+        name: iris-model
+        path: |
+          knn_iris_model.pkl
+          label_encoder.pkl
